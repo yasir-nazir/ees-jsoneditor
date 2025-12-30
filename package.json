@@ -1,6 +1,6 @@
 {
   "name": "ees-jsoneditor",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": false,
   "repository": {
     "type": "git",
@@ -70,7 +70,15 @@
     "typescript": "5.9.3"
   },
   "description": "",
-  "main": "index.js",
+  "main": "./projects/ees-jsoneditor/src/public-api.ts",
+  "module": "./projects/ees-jsoneditor/src/public-api.ts",
+  "types": "./projects/ees-jsoneditor/src/public-api.ts",
+  "exports": {
+    ".": {
+      "types": "./projects/ees-jsoneditor/src/public-api.ts",
+      "default": "./projects/ees-jsoneditor/src/public-api.ts"
+    }
+  },
   "author": "Yasir Nazir",
   "bugs": {
     "url": "https://github.com/yasir-nazir/ees-jsoneditor/issues"

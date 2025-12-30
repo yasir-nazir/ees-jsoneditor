@@ -1,6 +1,2 @@
-# .npmignore
-*
-!dist/**
-!README.md
-!LICENSE
-!package.json
+# Nested package.json's are only needed for development.
+**/package.json
