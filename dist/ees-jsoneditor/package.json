@@ -1,0 +1,41 @@
+{
+  "name": "ees-jsoneditor",
+  "version": "4.0.1",
+  "license": "MIT",
+  "homepage": "hhttps://github.com/yasir-nazir/ees-jsoneditor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yasir-nazir/ees-jsoneditor.git"
+  },
+  "author": "Yasir Nazir <eesystem2010@gmail.com>",
+  "keywords": [
+    "angular",
+    "jsoneditor",
+    "ees-jsoneditor",
+    "ng-jsoneditor",
+    "angular"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "jsoneditor": "*"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "module": "fesm2022/ees-jsoneditor.mjs",
+  "typings": "index.d.ts",
+  "main": "/fesm2022/ees-jsoneditor.mjs",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2022": "./esm2022/ees-jsoneditor.mjs",
+      "esm": "./esm2022/ees-jsoneditor.mjs",
+      "default": "./fesm2022/ees-jsoneditor.mjs"
+    }
+  },
+  "sideEffects": false
+}
