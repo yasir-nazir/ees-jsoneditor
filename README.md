@@ -1,6 +1,5 @@
 # Angular Json Editor
 
-[![Build Status](https://travis-ci.org/mariohmol/ees-jsoneditor.svg?branch=master)](https://travis-ci.org/mariohmol/ees-jsoneditor)
 
 Angular Json Editor (wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor)). View/Edit Json file with formatting.
 
@@ -136,12 +135,12 @@ If you find youself trying to use an custom option that is not mapped here, you 
 let editorOptions: JsonEditorOptions = new JsonEditorOptions(); (<any>this.editorOptions).templates = [{menu options objects as in json editor documentation}]
 ```
 
-See the [issue](https://github.com/mariohmol/ees-jsoneditor/issues/57)
+See the [issue](https://github.com/yasir-nazir/ees-jsoneditor/issues/57)
 
 ## Internet Explorer
 
 If you want to support IE, please follow this guide:
-* https://github.com/mariohmol/ees-jsoneditor/issues/44#issuecomment-508650610
+* https://github.com/yasir-nazir/ees-jsoneditor/issues/44#issuecomment-508650610
 
 ## Multiple editors
 
@@ -166,7 +165,7 @@ makeOptions = () => {
 Demo component files are included in Git Project.
 
 Demo Project with a lot of different implementations (ngInit, change event and others):
-[https://github.com/mariohmol/ees-jsoneditor/tree/master/src/app/demo)
+[https://github.com/yasir-nazir/ees-jsoneditor/tree/master/src/app/demo)
 
 When publishing it to npm, look over this docs: https://docs.npmjs.com/misc/developers
 
