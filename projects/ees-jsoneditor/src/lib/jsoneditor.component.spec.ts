@@ -1,20 +1,20 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfinityJsonEditorComponent } from './jsoneditor.component';
+import { EeJsonEditorComponent } from './jsoneditor.component';
 
-describe('InfinityJsonEditorComponent', () => {
-  let component: InfinityJsonEditorComponent;
-  let fixture: ComponentFixture<InfinityJsonEditorComponent>;
+describe('EeJsonEditorComponent', () => {
+  let component: EeJsonEditorComponent;
+  let fixture: ComponentFixture<EeJsonEditorComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfinityJsonEditorComponent ]
+      declarations: [ EeJsonEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfinityJsonEditorComponent);
+    fixture = TestBed.createComponent(EeJsonEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

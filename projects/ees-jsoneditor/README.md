@@ -48,7 +48,7 @@ Then setup your component models as below :
 
 ```ts
 import { Component, ViewChild } from '@angular/core';
-import { InfinityJsonEditorComponent, JsonEditorOptions } from 'ees-jsoneditor';
+import { EeJsonEditorComponent, JsonEditorOptions } from 'ees-jsoneditor';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +58,7 @@ import { InfinityJsonEditorComponent, JsonEditorOptions } from 'ees-jsoneditor';
 export class AppComponent {
   public editorOptions: JsonEditorOptions;
   public data: any;
-  @ViewChild(InfinityJsonEditorComponent, { static: false }) editor: InfinityJsonEditorComponent;
+  @ViewChild(EeJsonEditorComponent, { static: false }) editor: EeJsonEditorComponent;
 
   constructor() { 
     this.editorOptions = new JsonEditorOptions()

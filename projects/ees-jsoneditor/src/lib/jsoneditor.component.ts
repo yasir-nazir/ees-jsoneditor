@@ -27,7 +27,7 @@ import { IError, JsonEditorMode, JsonEditorOptions, JsonEditorTreeNode } from '.
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InfinityJsonEditorComponent),
+      useExisting: forwardRef(() => EeJsonEditorComponent),
       multi: true
     }
   ],
@@ -35,7 +35,7 @@ import { IError, JsonEditorMode, JsonEditorOptions, JsonEditorTreeNode } from '.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class InfinityJsonEditorComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class EeJsonEditorComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @ViewChild('jsonEditorContainer', { static: true }) jsonEditorContainer: ElementRef;
   @Input() options: JsonEditorOptions = new JsonEditorOptions();
   @Output()

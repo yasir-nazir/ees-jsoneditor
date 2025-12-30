@@ -1,10 +1,10 @@
 {
   "name": "ees-jsoneditor",
-  "version": "4.0.1",
+  "version": "2.0.0",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/yasir-nazir/ees-jsoneditor"
+    "url": "git+https://github.com/yasir-nazir/ees-jsoneditor.git"
   },
   "license": "MIT",
   "scripts": {
@@ -68,5 +68,12 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "5.9.3"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "author": "Yasir Nazir",
+  "bugs": {
+    "url": "https://github.com/yasir-nazir/ees-jsoneditor/issues"
+  },
+  "homepage": "https://github.com/yasir-nazir/ees-jsoneditor#readme"
 }
