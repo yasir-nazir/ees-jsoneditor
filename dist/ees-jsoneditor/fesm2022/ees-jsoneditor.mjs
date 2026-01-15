@@ -1,4 +1,5 @@
 import JSONEditor from 'jsoneditor';
+import { CommonModule } from '@angular/common';
 import * as i0 from '@angular/core';
 import { EventEmitter, forwardRef, Input, Output, ViewChild, ChangeDetectionStrategy, Component } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -203,21 +204,22 @@ class EeJsonEditorComponent {
             return false;
         }
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.3.15", ngImport: i0, type: EeJsonEditorComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "20.3.15", type: EeJsonEditorComponent, isStandalone: true, selector: "json-editor", inputs: { options: "options", debug: "debug", data: "data" }, outputs: { change: "change", jsonChange: "jsonChange" }, providers: [
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.3.16", ngImport: i0, type: EeJsonEditorComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "20.3.16", type: EeJsonEditorComponent, isStandalone: true, selector: "json-editor", inputs: { options: "options", debug: "debug", data: "data" }, outputs: { change: "change", jsonChange: "jsonChange" }, providers: [
             {
                 provide: NG_VALUE_ACCESSOR,
                 useExisting: forwardRef(() => EeJsonEditorComponent),
                 multi: true
             }
-        ], viewQueries: [{ propertyName: "jsonEditorContainer", first: true, predicate: ["jsonEditorContainer"], descendants: true, static: true }], ngImport: i0, template: `<div [id]="id" #jsonEditorContainer></div>`, isInline: true, changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
+        ], viewQueries: [{ propertyName: "jsonEditorContainer", first: true, predicate: ["jsonEditorContainer"], descendants: true, static: true }], ngImport: i0, template: `<div [id]="id" #jsonEditorContainer></div>`, isInline: true, dependencies: [{ kind: "ngmodule", type: CommonModule }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.15", ngImport: i0, type: EeJsonEditorComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.16", ngImport: i0, type: EeJsonEditorComponent, decorators: [{
             type: Component,
             args: [{
                     // eslint-disable-next-line @angular-eslint/component-selector
                     selector: 'json-editor',
                     standalone: true,
+                    imports: [CommonModule],
                     template: `<div [id]="id" #jsonEditorContainer></div>`,
                     providers: [
                         {
