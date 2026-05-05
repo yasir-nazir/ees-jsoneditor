@@ -204,8 +204,8 @@ class EeJsonEditorComponent {
             return false;
         }
     }
-    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.3.18", ngImport: i0, type: EeJsonEditorComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
-    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "20.3.18", type: EeJsonEditorComponent, isStandalone: true, selector: "json-editor", inputs: { options: "options", debug: "debug", data: "data" }, outputs: { change: "change", jsonChange: "jsonChange" }, providers: [
+    static { this.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "20.3.19", ngImport: i0, type: EeJsonEditorComponent, deps: [], target: i0.ɵɵFactoryTarget.Component }); }
+    static { this.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "20.3.19", type: EeJsonEditorComponent, isStandalone: true, selector: "json-editor", inputs: { options: "options", debug: "debug", data: "data" }, outputs: { change: "change", jsonChange: "jsonChange" }, providers: [
             {
                 provide: NG_VALUE_ACCESSOR,
                 useExisting: forwardRef(() => EeJsonEditorComponent),
@@ -213,7 +213,7 @@ class EeJsonEditorComponent {
             }
         ], viewQueries: [{ propertyName: "jsonEditorContainer", first: true, predicate: ["jsonEditorContainer"], descendants: true, static: true }], ngImport: i0, template: `<div [id]="id" #jsonEditorContainer></div>`, isInline: true, dependencies: [{ kind: "ngmodule", type: CommonModule }], changeDetection: i0.ChangeDetectionStrategy.OnPush }); }
 }
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.18", ngImport: i0, type: EeJsonEditorComponent, decorators: [{
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "20.3.19", ngImport: i0, type: EeJsonEditorComponent, decorators: [{
             type: Component,
             args: [{
                     // eslint-disable-next-line @angular-eslint/component-selector
