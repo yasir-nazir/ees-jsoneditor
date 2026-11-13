@@ -1,33 +1,56 @@
-# Angular Json Editor
+# ees-jsoneditor
 
+An Angular wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor). Use it to view, edit, format and validate JSON inside an Angular app.
 
-Angular Json Editor (wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor)). View/Edit Json file with formatting.
+- Standalone component (`<json-editor>`), no NgModule needed
+- Works with Reactive Forms and `ngModel` (it implements `ControlValueAccessor`)
+- Supports the jsoneditor modes `tree`, `view`, `form`, `code` and `text`
+- Typed options through `JsonEditorOptions`
+- Built for **Angular 20** (peer dependency `@angular/core ^20.3.0`)
 
-[StackBlitz template](https://stackblitz.com/edit/ees-jsoneditor)
+[Try it on StackBlitz](https://stackblitz.com/edit/ees-jsoneditor)
 
-Working with latest Angular 20.
+![Demo](https://raw.githubusercontent.com/yasir-nazir/ees-jsoneditor/main/src/assets/printDemo.png)
 
-![Demo Image](/src/assets/printDemo.png)
+## Contents
+
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [Inputs and outputs](#inputs-and-outputs)
+- [Options](#options)
+- [Forms](#forms)
+- [Calling editor methods](#calling-editor-methods)
+- [Multiple editors](#multiple-editors)
+- [Troubleshooting](#troubleshooting)
+- [Development](#development)
+- [License](#license)
 
 ## Installation
 
-To install this library with npm, run below command:
+Install the package and its `jsoneditor` peer dependency:
 
 ```sh
-$ npm install --save jsoneditor ees-jsoneditor
+npm install --save jsoneditor ees-jsoneditor
 ```
 
-Example:
+Then add the jsoneditor stylesheet. The simplest way is the `styles` array in `angular.json`:
 
-```html
-<json-editor [options]="editorOptions" [data]="data" (change)="getData($event)"></json-editor>
+```json
+"styles": [
+  "node_modules/jsoneditor/dist/jsoneditor.min.css",
+  "src/styles.scss"
+]
 ```
 
-## Usage
+Or import it in your global stylesheet:
 
-### Configuration
+```scss
+@import "jsoneditor/dist/jsoneditor.min.css";
+```
 
-Import the standalone component as below:
+> The old `~jsoneditor/...` prefix only works with the webpack builder. The default Angular 20 builder (`@angular/build`) doesn't need it.
+
+## Quick start
 
 ```ts
 import { Component, ViewChild } from '@angular/core';
@@ -35,149 +58,229 @@ import { EeJsonEditorComponent, JsonEditorOptions } from 'ees-jsoneditor';
 
 @Component({
   selector: 'app-root',
-  template: '<json-editor [options]="editorOptions" [data]="data"></json-editor>',
-  styleUrls: ['./app.component.css'],
-  imports: [EeJsonEditorComponent]
+  imports: [EeJsonEditorComponent],
+  template: `
+    <json-editor
+      [options]="editorOptions"
+      [data]="data"
+      (change)="onChange($event)">
+    </json-editor>
+  `,
 })
 export class AppComponent {
-  public editorOptions: JsonEditorOptions;
-  public data: any;
-  // optional
-  @ViewChild(EeJsonEditorComponent, { static: false }) editor: EeJsonEditorComponent;
+  // Optional: get a reference to call editor methods directly
+  @ViewChild(EeJsonEditorComponent) editor?: EeJsonEditorComponent;
+
+  editorOptions = new JsonEditorOptions();
+  data = {
+    products: [
+      { name: 'car', product: [{ name: 'honda', model: [{ id: 'civic' }, { id: 'accord' }] }] },
+    ],
+  };
 
   constructor() {
-    this.editorOptions = new JsonEditorOptions()
-    this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // set all allowed modes
-    //this.options.mode = 'code'; //set only one mode
-
-    this.data = {"products":[{"name":"car","product":[{"name":"honda","model":[{"id":"civic","name":"civic"},{"id":"accord","name":"accord"},{"id":"crv","name":"crv"},{"id":"pilot","name":"pilot"},{"id":"odyssey","name":"odyssey"}]}]}]}
+    this.editorOptions.modes = ['code', 'text', 'tree', 'view']; // modes the user can switch between
+    // this.editorOptions.mode = 'code';                        // or pick a single starting mode
   }
 
+  onChange(json: unknown) {
+    console.log('Edited JSON:', json);
+  }
 }
 ```
-Note : For better styling, add below line to your main style.css file
 
-```js
-@import "~jsoneditor/dist/jsoneditor.min.css";
+## Inputs and outputs
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `[data]` | `object` | The JSON to show. Setting a new value rebuilds the editor with it. |
+| `[options]` | `JsonEditorOptions` | Editor configuration. See [Options](#options). |
+| `[debug]` | `boolean` | Logs the options and data passed to jsoneditor, plus parse errors, to the console. Default `false`. |
+| `(change)` | `EventEmitter<any>` | Emits the parsed JSON after every edit, in all modes. Edits that leave invalid JSON (for example while typing in `code` mode) don't emit. |
+| `(jsonChange)` | `EventEmitter<any>` | Emits the parsed JSON on edits in `tree`, `view` and `form` modes only. It's turned off when `mode` is `code`/`text` or `modes` includes either of them. |
+
+If you set `options.onChange` or `options.onChangeJSON` yourself, your callback replaces the component's, and the matching output won't emit.
+
+## Options
+
+`JsonEditorOptions` maps the [jsoneditor configuration options](https://github.com/josdejong/jsoneditor/blob/master/docs/api.md#configuration-options). Defaults set by this library:
+
+| Option | Default |
+| --- | --- |
+| `mode` | `'tree'` |
+| `enableSort` | `true` |
+| `enableTransform` | `true` |
+| `escapeUnicode` | `false` |
+| `sortObjectKeys` | `false` |
+| `history` | `true` |
+| `search` | `true` |
+| `indentation` | `2` |
+| `expandAll` | `false` |
+
+Some commonly used options:
+
+```ts
+const options = new JsonEditorOptions();
+options.mode = 'tree';
+options.modes = ['tree', 'code', 'text', 'view', 'form'];
+options.schema = mySchema;          // JSON Schema validation
+options.language = 'pt-BR';         // UI language
+options.mainMenuBar = true;         // format / sort / transform / search menu
+options.navigationBar = true;       // breadcrumbs (tree, form, view)
+options.statusBar = true;           // cursor position (code, text)
+options.onValidate = (json) => [];  // custom validation, return IError[]
+options.onEditable = (node) => true;
 ```
 
+### `expandAll`
 
-### Forms
+`expandAll` is the one option added by this library. When `true`, all nodes are expanded every time data loads through `[data]`.
 
-Build it integrated with ReactiveForms:
+### Options that aren't typed
+
+If you need a jsoneditor option that `JsonEditorOptions` doesn't declare, cast and set it:
+
+```ts
+(this.editorOptions as any).someNewOption = value;
+```
+
+See [issue #57](https://github.com/yasir-nazir/ees-jsoneditor/issues/57) for an example with `templates`.
+
+### Changing options at runtime
+
+Changing a property on an existing options object doesn't rebuild the editor. Pass a new object to `setOptions()` instead:
+
+```ts
+const next = new JsonEditorOptions();
+next.mode = 'code';
+this.editor?.setOptions(next);
+```
+
+## Forms
+
+The component works as a form control.
+
+Reactive Forms:
 
 ```ts
 this.form = this.fb.group({
-  myinput: [this.data]
+  config: [this.data],
 });
 ```
+
 ```html
-<form  [formGroup]="form" (submit)="submit()">
-    <json-editor [options]="editorOptions2" formControlName="myinput">
-    </json-editor>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <json-editor [options]="editorOptions" formControlName="config"></json-editor>
+  <button type="submit">Save</button>
 </form>
 ```
 
-### Extra Features
+Template-driven:
 
-Besides all the
-[configuration options](https://github.com/josdejong/jsoneditor/blob/master/docs/api.md)
-from the original jsoneditor, Angular Json Editor supports one additional option:
-
-_expandAll_ - to automatically expand all nodes upon json loaded with the _data_ input.
-
-# Troubleshoot
-
-If you have issue with the height of the component, you can try one of those solutions:
-
-When you import CSS:
-
-```css
-@import "~jsoneditor/dist/jsoneditor.min.css";
-textarea.jsoneditor-text{min-height:350px;}
+```html
+<json-editor [options]="editorOptions" [(ngModel)]="data"></json-editor>
 ```
 
-Or Customizing the CSS:
+Import `ReactiveFormsModule` or `FormsModule` in the host component as usual.
+
+## Calling editor methods
+
+Get the component with `@ViewChild(EeJsonEditorComponent)` and call:
+
+| Method | Description |
+| --- | --- |
+| `get()` | Returns the current JSON. Throws if the content is invalid. |
+| `getText()` | Returns the current content as a string. |
+| `set(json)` | Replaces the content. |
+| `update(json)` | Replaces the content and keeps the editor state (expanded nodes, selection) where it can. |
+| `isValidJson()` | `true` if the current text parses as JSON. |
+| `getMode()` / `setMode(mode)` | Read or change the mode. |
+| `getName()` / `setName(name)` | Read or change the root node name. |
+| `expandAll()` / `collapseAll()` | Expand or collapse all nodes (tree modes). |
+| `focus()` | Focus the editor. |
+| `setSchema(schema, schemaRefs)` | Set a JSON Schema for validation. |
+| `getSelection()` / `setSelection(start, end)` | Read or change the selection. |
+| `search(query)` | Run a search in tree modes. |
+| `setOptions(options)` | Rebuild the editor with new options. |
+| `getEditor()` | Returns the underlying `JSONEditor` instance for anything not wrapped here. |
+| `destroy()` | Destroys the editor. This also happens automatically in `ngOnDestroy`. |
+
+## Multiple editors
+
+Each editor needs its own options object, because the component sets callbacks on it. Don't share one instance between editors:
+
+```html
+@for (product of data.products; track $index) {
+  <json-editor [options]="makeOptions()" [data]="product" (change)="onChange($event)"></json-editor>
+}
+```
+
+```ts
+makeOptions = () => new JsonEditorOptions();
+```
+
+## Troubleshooting
+
+### The editor is too short or has no height
+
+Give the editor an explicit height. In a component stylesheet:
 
 ```css
 :host ::ng-deep json-editor,
 :host ::ng-deep json-editor .jsoneditor,
-:host ::ng-deep json-editor > div,
-:host ::ng-deep json-editor jsoneditor-outer {
+:host ::ng-deep json-editor > div {
   height: 500px;
 }
 ```
 
-Or  as a inner style in component:
+Or inline:
 
 ```html
-<json-editor class="col-md-12" #editorExample style="min-height: 300px;" [options]="editorOptionsData" [data]="dataStructure"></json-editor>
+<json-editor style="min-height: 300px" [options]="editorOptions" [data]="data"></json-editor>
 ```
 
-For code view you can change the height using this example:
+For `text` and `code` modes you can also target the inner elements globally:
+
 ```css
-.ace_editor.ace-jsoneditor {
-  min-height: 500px;
-}
+textarea.jsoneditor-text { min-height: 350px; }
+.ace_editor.ace-jsoneditor { min-height: 500px; }
 ```
 
-Use debug mode to see in your console the data and options passed to jsoneditor. Copy this and paste in your issue when reporting bugs.
+### The editor has no styling or icons
 
-```html
-<json-editor [debug]="true" [options]="editorOptionsData" [data]="dataStructure"></json-editor>
-```
+The jsoneditor CSS isn't loaded. See [Installation](#installation).
 
-## JSONOptions missing params
+### Reporting a bug
 
-If you find youself trying to use an custom option that is not mapped here, you can do:
+Turn on `[debug]="true"`, reproduce the problem and include the console output in your [issue](https://github.com/yasir-nazir/ees-jsoneditor/issues).
 
-```ts
-let editorOptions: JsonEditorOptions = new JsonEditorOptions(); (<any>this.editorOptions).templates = [{menu options objects as in json editor documentation}]
-```
+## Development
 
-See the [issue](https://github.com/yasir-nazir/ees-jsoneditor/issues/57)
+The repository has two Angular projects:
 
-## Internet Explorer
-
-If you want to support IE, please follow this guide:
-* https://github.com/yasir-nazir/ees-jsoneditor/issues/44#issuecomment-508650610
-
-## Multiple editors
-
-To use multiple jsoneditors in your view you cannot use the same editor options.
-
-You should have something like:
-
-```html
-<div *ngFor="let prd of data.products" class="w-100-p p-24" >
-  <json-editor [options]="makeOptions()" [data]="prd" (change)="showJson($event)"></json-editor>
-</div>
-```
-
-```ts
-makeOptions = () => {
-  return new JsonEditorOptions();
-}
-```
-
-# Demo
-
-Demo component files are included in Git Project.
-
-Demo Project with a lot of different implementations (ngInit, change event and others):
-[https://github.com/yasir-nazir/ees-jsoneditor/tree/master/src/app/demo)
-
-When publishing it to npm, look over this docs: https://docs.npmjs.com/misc/developers
-
-# Collaborate
-
-Fork, clone this repo and install dependencies.
-This project just works with webpack 4 (dont change to 5):
+| Path | Project | Purpose |
+| --- | --- | --- |
+| `projects/ees-jsoneditor/` | `ees-jsoneditor` | The published library |
+| `src/` | `ees-jsoneditor-demo` | Demo app ([`src/app/demo`](src/app/demo)) with examples of most features |
 
 ```sh
-npm i -g rimraf
-npm i
+git clone https://github.com/yasir-nazir/ees-jsoneditor.git
+cd ees-jsoneditor
+npm install
+
+npm start            # run the demo app at http://localhost:4200
+npm run build:lib    # build the library into dist/ees-jsoneditor
+npm run watch        # rebuild the library on changes
+npm run test:unit    # run the unit tests (Karma)
+npm run lint         # lint
 ```
 
-# License
-MIT(./LICENSE)
+The demo imports the library from source, so changes in `projects/ees-jsoneditor/src` show up in `npm start` without a rebuild.
+
+### Publishing
+
+`npm run publishnpm` copies this README into the library, builds it and publishes `dist/ees-jsoneditor` to npm. Bump the version in both `package.json` and `projects/ees-jsoneditor/package.json` first. See the [npm docs on publishing](https://docs.npmjs.com/cli/commands/npm-publish).
+
+## License
+
+[MIT](LICENSE)
