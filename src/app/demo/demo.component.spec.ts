@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { EeJsonEditorComponent } from 'ees-jsoneditor';
+import { EeJsonEditorComponent } from '../../../projects/ees-jsoneditor/src/public-api';
 import { DemoComponent } from './demo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

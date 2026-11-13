@@ -3,7 +3,7 @@
 /* eslint-disable @angular-eslint/no-output-native */
 
 import JSONEditor from 'jsoneditor';
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,7 +23,6 @@ import { IError, JsonEditorMode, JsonEditorOptions, JsonEditorTreeNode } from '.
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'json-editor',
   standalone: true,
-  imports: [CommonModule],
   template: `<div [id]="id" #jsonEditorContainer></div>`,
   providers: [
     {

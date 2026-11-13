@@ -3,11 +3,10 @@ import { EeJsonEditorComponent, JsonEditorOptions } from '../../../projects/ees-
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { schema } from './schema.value';
 import { ShowComponent } from './show.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, EeJsonEditorComponent, ShowComponent],
+  imports: [ReactiveFormsModule, EeJsonEditorComponent, ShowComponent],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.css']

@@ -6,7 +6,7 @@ An Angular wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor). Us
 - Works with Reactive Forms and `ngModel` (it implements `ControlValueAccessor`)
 - Supports the jsoneditor modes `tree`, `view`, `form`, `code` and `text`
 - Typed options through `JsonEditorOptions`
-- Built for **Angular 20** (peer dependency `@angular/core ^20.3.0`)
+- Versions for Angular 20, 21 and 22 (see [Compatibility](#compatibility))
 
 [Try it on StackBlitz](https://stackblitz.com/edit/ees-jsoneditor)
 
@@ -14,6 +14,7 @@ An Angular wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor). Us
 
 ## Contents
 
+- [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [Inputs and outputs](#inputs-and-outputs)
@@ -25,12 +26,22 @@ An Angular wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor). Us
 - [Development](#development)
 - [License](#license)
 
+## Compatibility
+
+Install the version that matches your Angular major version:
+
+| Angular | ees-jsoneditor | Install |
+| --- | --- | --- |
+| 22 | 22.x | `npm install ees-jsoneditor@22` |
+| 21 | 21.x | `npm install ees-jsoneditor@21` |
+| 20 | 2.1.x | `npm install ees-jsoneditor@2` |
+
 ## Installation
 
-Install the package and its `jsoneditor` peer dependency:
+Install the package and its `jsoneditor` peer dependency (use the version from [Compatibility](#compatibility)):
 
 ```sh
-npm install --save jsoneditor ees-jsoneditor
+npm install --save jsoneditor ees-jsoneditor@21
 ```
 
 Then add the jsoneditor stylesheet. The simplest way is the `styles` array in `angular.json`:
@@ -48,7 +59,7 @@ Or import it in your global stylesheet:
 @import "jsoneditor/dist/jsoneditor.min.css";
 ```
 
-> The old `~jsoneditor/...` prefix only works with the webpack builder. The default Angular 20 builder (`@angular/build`) doesn't need it.
+> The old `~jsoneditor/...` prefix only works with the webpack builder. The default builder in Angular 20 and later (`@angular/build`) doesn't need it.
 
 ## Quick start
 
@@ -245,6 +256,18 @@ For `text` and `code` modes you can also target the inner elements globally:
 textarea.jsoneditor-text { min-height: 350px; }
 .ace_editor.ace-jsoneditor { min-height: 500px; }
 ```
+
+### "bundle initial exceeded maximum budget"
+
+jsoneditor (with the Ace code editor) adds about 850 kB to your bundle, so a new Angular app goes over its default 1 MB size budget. Raise the `initial` budget in `angular.json`:
+
+```json
+"budgets": [
+  { "type": "initial", "maximumWarning": "1.5MB", "maximumError": "2MB" }
+]
+```
+
+Or lazy-load the route or component that uses the editor, so it isn't part of the initial bundle.
 
 ### The editor has no styling or icons
 
