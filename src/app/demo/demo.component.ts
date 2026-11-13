@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { EeJsonEditorComponent, JsonEditorOptions } from '../../../projects/ees-jsoneditor/src/public-api';
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { schema } from './schema.value';
@@ -9,6 +9,7 @@ import { ShowComponent } from './show.component';
   imports: [ReactiveFormsModule, EeJsonEditorComponent, ShowComponent],
   selector: 'app-demo',
   templateUrl: './demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./demo.component.css']
 })
 export class DemoComponent implements OnInit {

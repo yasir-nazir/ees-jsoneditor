@@ -41,7 +41,7 @@ Install the version that matches your Angular major version:
 Install the package and its `jsoneditor` peer dependency (use the version from [Compatibility](#compatibility)):
 
 ```sh
-npm install --save jsoneditor ees-jsoneditor@21
+npm install --save jsoneditor ees-jsoneditor@22
 ```
 
 Then add the jsoneditor stylesheet. The simplest way is the `styles` array in `angular.json`:
@@ -285,6 +285,8 @@ The repository has two Angular projects:
 | --- | --- | --- |
 | `projects/ees-jsoneditor/` | `ees-jsoneditor` | The published library |
 | `src/` | `ees-jsoneditor-demo` | Demo app ([`src/app/demo`](src/app/demo)) with examples of most features |
+
+Requires Node.js `^22.22.3`, `^24.15.0` or `>=26` (the Angular 22 minimum).
 
 ```sh
 git clone https://github.com/yasir-nazir/ees-jsoneditor.git
