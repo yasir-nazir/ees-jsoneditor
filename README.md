@@ -6,6 +6,7 @@ An Angular wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor). Us
 - Works with Reactive Forms and `ngModel` (it implements `ControlValueAccessor`)
 - Supports the jsoneditor modes `tree`, `view`, `form`, `code` and `text`
 - Typed options through `JsonEditorOptions`
+- Works in zoneless apps (the default since Angular 21) and with `OnPush` (the default since Angular 22)
 - Versions for Angular 20, 21 and 22 (see [Compatibility](#compatibility))
 
 [Try it on StackBlitz](https://stackblitz.com/edit/ees-jsoneditor)
@@ -15,6 +16,7 @@ An Angular wrapper for [jsoneditor](https://github.com/josdejong/jsoneditor). Us
 ## Contents
 
 - [Compatibility](#compatibility)
+- [Upgrading from 2.x](#upgrading-from-2x)
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [Inputs and outputs](#inputs-and-outputs)
@@ -35,6 +37,14 @@ Install the version that matches your Angular major version:
 | 22 | 22.x | `npm install ees-jsoneditor@22` |
 | 21 | 21.x | `npm install ees-jsoneditor@21` |
 | 20 | 2.1.x | `npm install ees-jsoneditor@2` |
+
+Each release lists only its own Angular major version as a peer dependency, so npm stops you from installing a version that doesn't match your app.
+
+## Upgrading from 2.x
+
+The component API (`<json-editor>`, its inputs, outputs and methods, and `JsonEditorOptions`) is the same in 2.x, 21.x and 22.x. To upgrade, update Angular first, then install the matching version from the table above. No code changes are needed.
+
+`@angular/forms` is now a declared peer dependency. Most apps already have it installed.
 
 ## Installation
 
@@ -304,7 +314,24 @@ The demo imports the library from source, so changes in `projects/ees-jsoneditor
 
 ### Publishing
 
-`npm run publishnpm` copies this README into the library, builds it and publishes `dist/ees-jsoneditor` to npm. Bump the version in both `package.json` and `projects/ees-jsoneditor/package.json` first. See the [npm docs on publishing](https://docs.npmjs.com/cli/commands/npm-publish).
+Each Angular version has its own branch:
+
+| Branch | Version | npm tag |
+| --- | --- | --- |
+| `angular-22` | 22.x | `latest` |
+| `angular-21` | 21.x | `v21-lts` |
+| `main` (Angular 20) | 2.1.x | `v20-lts` |
+
+To release:
+
+1. Bump the version in both `package.json` and `projects/ees-jsoneditor/package.json`.
+2. Log in with `npm login` and check with `npm whoami`.
+3. Build: `npm run build:lib`. This copies this README into the library, so the README on npm matches.
+4. Publish from `dist/ees-jsoneditor`:
+   - newest Angular version: `npm publish`
+   - older versions: `npm publish --tag v21-lts` (or `v20-lts`), so they don't replace `latest`
+
+npm only updates the README shown on npmjs.com when you publish a new version. See the [npm docs on publishing](https://docs.npmjs.com/cli/commands/npm-publish).
 
 ## License
 
